@@ -163,8 +163,8 @@ else:
 	
 	
 	frame = 1
-
-	pts = deque(maxlen=50)
+	length = int(cap.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT))
+	pts = deque(maxlen=length)
 
 	while True:
 		# Read image
@@ -192,7 +192,6 @@ else:
 			cv2.line(im_draw, CMT.bl, CMT.tl, (255, 0, 0), 4)
 			
 			#draw current center
-			#cv2.circle(im_draw, (cen_x, cen_y), 10, (0,0,0), -5)
 			if frame>1:
 				cv2.circle(im_draw, center, 10, (255,0,0), -5)
 			pts.appendleft(center)
@@ -204,8 +203,7 @@ else:
 					continue
 
 				# otherwise, compute the thickness of the line and draw the connecting lines
-				thickness = int(np.sqrt(50 / float(i + 1)) * 2.5)
-				cv2.line(im_draw, pts[i - 1], pts[i], (0, 0, 255), thickness)
+				cv2.line(im_draw, pts[i - 1], pts[i], (0, 0, 255), 2)
 			
 
 		util.draw_keypoints(CMT.tracked_keypoints, im_draw, (255, 255, 255))
